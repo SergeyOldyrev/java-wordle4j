@@ -11,9 +11,11 @@ import java.util.logging.Level;
 
 public class WordleDictionaryLoader {
     private final Logger log;
+
     public WordleDictionaryLoader(Logger log) {
         this.log = log;
     }
+
     public Set<String> loadDictionary(String resourceName) {
         Set<String> words = new HashSet<>();
         log.info("Начинаем загрузку словаря из ресурса: " + resourceName);

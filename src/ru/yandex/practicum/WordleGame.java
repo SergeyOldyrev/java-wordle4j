@@ -27,12 +27,15 @@ public class WordleGame {
     private boolean isGameOver = false;
     private final Logger log;
     private int[] lastResultCodes;
+
     public int getSteps() {
         return steps;
     }
+
     public int[] getLastResultCodes() {
         return lastResultCodes;
     }
+
     public static class InvalidWordException extends RuntimeException {
         public InvalidWordException(String message) {
             super(message);
@@ -213,7 +216,7 @@ public class WordleGame {
                 if (code == 0) {
                     forbiddenLetters.add(letter);
                 } else if (code == 2) {
-                   fixedLetters.put(i, letter);
+                    fixedLetters.put(i, letter);
                 }
             }
         }

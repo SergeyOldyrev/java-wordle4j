@@ -13,14 +13,14 @@ import java.util.logging.Logger;
     вывести состояние игры и конечный результат
  */
 
-    public class Wordle {
+public class Wordle {
     private static final Logger log = Logger.getLogger(Wordle.class.getName());
 
     public static void main(String[] args) {
 
         WordleDictionaryLoader loader = new WordleDictionaryLoader(log);
         Set<String> rawWords = loader.loadDictionary("words_ru.txt");
-        WordleDictionary dictionary = new WordleDictionary(rawWords,log);
+        WordleDictionary dictionary = new WordleDictionary(rawWords, log);
 
         Scanner scanner = new Scanner(System.in);
         List<String> wordList = new ArrayList<>(dictionary.getAllWords());
@@ -35,8 +35,7 @@ import java.util.logging.Logger;
 
         System.out.println(" Слово загадано (длина: " + randomAnswer.length() + " букв). Удачи!");
 
-        WordleGame game = new WordleGame(randomAnswer, dictionary, 6,log);
-    
+        WordleGame game = new WordleGame(randomAnswer, dictionary, 6, log);
         log.info("Игра запущена. Загадано слово из " + randomAnswer.length() + " букв.");
 
         while (true) {
