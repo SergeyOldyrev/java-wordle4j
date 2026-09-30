@@ -26,7 +26,13 @@ public class WordleGame {
     private final List<Move> history = new ArrayList<>();
     private boolean isGameOver = false;
     private final Logger log;
-
+    private int[] lastResultCodes;
+    public int getSteps() {
+        return steps;
+    }
+    public int[] getLastResultCodes() {
+        return lastResultCodes;
+    }
     public static class InvalidWordException extends RuntimeException {
         public InvalidWordException(String message) {
             super(message);
@@ -143,6 +149,12 @@ public class WordleGame {
     }
 
     public GameResult makeMove(String guess) {
+        if (guess == null) {
+            throw new InvalidWordException("Ввод не может быть пустым. Пожалуйста, введите слово.");
+        }
+        if (guess.length() != answer.length()) {
+            throw new InvalidWordException("Ошибка: Недопустимая длина слова");
+        }
 
         if (this.isGameOver) {
             throw new GameStateException("Игра уже окончена! Нельзя делать новые ходы.");
@@ -159,7 +171,12 @@ public class WordleGame {
         this.log.fine("Ход #" + steps + ". Игрок ввел: " + guess + ". Результат цветов: " + Arrays.toString(colors));
 
         boolean isWin = Arrays.stream(colors).allMatch(code -> code == 2);
-
+        log.info("=== ОТЛАДКА ХОДА ===");
+        log.info("Загаданное слово: " + this.answer);
+        log.info("Введённое слово: " + guess);
+        log.info("Массив кодов (resultCodes): " + java.util.Arrays.toString(colors));
+        log.info("===================");
+        this.lastResultCodes = colors;
         boolean currentRoundIsOver = isWin || (steps >= maxSteps);
 
         this.isGameOver = currentRoundIsOver;
@@ -232,7 +249,7 @@ public class WordleGame {
 
             if (matchesFixed) {
                 log.info("Подсказка: " + candidate);
-                return candidate;
+                return candidate.toUpperCase();
             }
         }
 

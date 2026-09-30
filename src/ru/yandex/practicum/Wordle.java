@@ -13,7 +13,7 @@ import java.util.logging.Logger;
     вывести состояние игры и конечный результат
  */
 
-public class Wordle {
+    public class Wordle {
     private static final Logger log = Logger.getLogger(Wordle.class.getName());
 
     public static void main(String[] args) {
