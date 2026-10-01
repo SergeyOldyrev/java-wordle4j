@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Logger;
-
+import ru.yandex.practicum.exceptions.InvalidWordException;
 import static org.junit.jupiter.api.Assertions.*;
 
 class WordleTest {
@@ -60,7 +60,7 @@ class WordleTest {
         WordleDictionary dictionary = new WordleDictionary(words, Logger.getLogger("test"));
         WordleGame game = new WordleGame("КОТ", dictionary, 6, Logger.getLogger("test"));
 
-        assertThrows(WordleGame.InvalidWordException.class, () -> game.makeMove("КО"));
+        assertThrows(InvalidWordException.class, () -> game.makeMove("КО"));
         assertEquals(0, game.getSteps(), "Неверный ввод не должен увеличивать счетчик ходов!");
 
         WordleGame.GameResult result = game.makeMove("ДОМ");
@@ -75,7 +75,7 @@ class WordleTest {
         WordleGame game = new WordleGame("КОТ", dictionary, 6, Logger.getLogger("test"));
 
         String guess = "";
-        WordleGame.InvalidWordException exception = assertThrows(WordleGame.InvalidWordException.class, () -> game.makeMove(guess));
+        InvalidWordException exception = assertThrows(InvalidWordException.class, () -> game.makeMove(guess));
 
         assertTrue(exception.getMessage().contains("длина") || exception.getMessage().contains("пусто"));
     }
@@ -88,7 +88,7 @@ class WordleTest {
         WordleGame game = new WordleGame("КОТ", dictionary, 6, Logger.getLogger("test"));
 
         String guess = "    ";
-        WordleGame.InvalidWordException exception = assertThrows(WordleGame.InvalidWordException.class, () -> game.makeMove(guess));
+        InvalidWordException exception = assertThrows(InvalidWordException.class, () -> game.makeMove(guess));
 
         assertTrue(exception.getMessage().contains("длина") || exception.getMessage().contains("пусто"));
     }
@@ -101,7 +101,7 @@ class WordleTest {
         WordleGame game = new WordleGame("КОТ", dictionary, 6, Logger.getLogger("test"));
 
         String guess = "КОТО";
-        WordleGame.InvalidWordException exception = assertThrows(WordleGame.InvalidWordException.class, () -> game.makeMove(guess));
+        InvalidWordException exception = assertThrows(InvalidWordException.class, () -> game.makeMove(guess));
 
         assertTrue(exception.getMessage().contains("длина") || exception.getMessage().contains("пусто"));
     }
@@ -114,7 +114,7 @@ class WordleTest {
 
         String guess = "ААА";
 
-        assertThrows(WordleGame.InvalidWordException.class, () -> game.makeMove(guess));
+        assertThrows(InvalidWordException.class, () -> game.makeMove(guess));
     }
 
     @Test
@@ -125,7 +125,7 @@ class WordleTest {
         WordleGame game = new WordleGame("КОТ", dictionary, 6, Logger.getLogger("test"));
 
         String guess = null;
-        assertThrows(WordleGame.InvalidWordException.class, () -> game.makeMove(guess));
+        assertThrows(InvalidWordException.class, () -> game.makeMove(guess));
     }
 
     @Test

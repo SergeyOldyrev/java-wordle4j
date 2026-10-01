@@ -1,5 +1,7 @@
 package ru.yandex.practicum;
 
+import ru.yandex.practicum.exceptions.InvalidWordException;
+
 import java.util.*;
 import java.util.logging.Logger;
 
@@ -29,23 +31,29 @@ public class Wordle {
             System.out.println("Ошибка: Словарь пуст! Невозможно начать игру.");
             return;
         }
+        List<String> validWords = new ArrayList<>();
+        for (String word : wordList) {
+            if (word.length() == 5) {
+                validWords.add(word);
+            }
+        }
 
+        if (validWords.isEmpty()) {
+            throw new IllegalStateException("В словаре нет слов длиной не более 5 символов!");
+        }
         Random random = new Random();
-        String randomAnswer = wordList.get(random.nextInt(wordList.size()));
+        String randomAnswer = validWords.get(random.nextInt(validWords.size()));
 
-        System.out.println(" Слово загадано (длина: " + randomAnswer.length() + " букв). Удачи!");
-
-        WordleGame game = new WordleGame(randomAnswer, dictionary, 6, log);
+         WordleGame game = new WordleGame(randomAnswer, dictionary, 6, log);
         log.info("Игра запущена. Загадано слово из " + randomAnswer.length() + " букв.");
 
         while (true) {
-            System.out.print("Твой ход (или 'hint' для подсказки): ");
+            System.out.print("Твой ход : ");
             String guess = scanner.nextLine().trim();
 
-            if ("hint".equals(guess) || "?".equals(guess)) {
-                String hint = game.getHint();
-                System.out.println("💡 Подсказка: попробуй слово — " + hint);
-
+            if (guess.trim().isEmpty()) {
+                String hintWord = game.getHint();
+                System.out.println("💡 Подсказка: попробуй слово '" + hintWord + "'");
                 continue;
             }
 
@@ -66,12 +74,9 @@ public class Wordle {
 
                 System.out.println("Осталось ходов: " + result.getRemainingSteps());
 
-            } catch (WordleGame.InvalidWordException e) {
+            } catch (InvalidWordException e) {
                 System.out.println(" Ошибка ввода: " + e.getMessage());
                 System.out.println("Попробуй ещё раз (ход не потрачен!).");
-            } catch (WordleGame.GameStateException e) {
-                System.out.println(" Состояние игры: " + e.getMessage());
-                break;
             }
         }
     }

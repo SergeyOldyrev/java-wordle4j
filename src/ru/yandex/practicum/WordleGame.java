@@ -2,6 +2,7 @@ package ru.yandex.practicum;
 
 import java.util.*;
 import java.util.logging.Logger;
+import ru.yandex.practicum.exceptions.InvalidWordException;
 
 /*
 в этом классе хранится словарь и состояние игры
@@ -35,34 +36,20 @@ public class WordleGame {
     public int[] getLastResultCodes() {
         return lastResultCodes;
     }
-
-    public static class InvalidWordException extends RuntimeException {
-        public InvalidWordException(String message) {
-            super(message);
-        }
-    }
-
     public String getAnswer() {
         return answer;
     }
 
-    public static class GameStateException extends RuntimeException {
-        public GameStateException(String message) {
-            super(message);
-        }
-    }
-
-
     public WordleGame(String answer, WordleDictionary dictionary, int maxSteps, Logger log) {
         if (answer == null || answer.isEmpty()) {
-            throw new GameStateException("Ответ не может быть пустым!");
+            throw new InvalidWordException("Ответ не может быть пустым!");
         }
         if (dictionary == null) {
-            throw new GameStateException("Словарь не может быть null!");
+            throw new InvalidWordException("Словарь не может быть null!");
         }
 
         if (dictionary.getAllWords().isEmpty()) {
-            throw new GameStateException("Словарь пуст, играть невозможно!");
+            throw new InvalidWordException("Словарь пуст, играть невозможно!");
         }
         this.log = log;
         this.answer = answer.toLowerCase();
@@ -74,7 +61,7 @@ public class WordleGame {
 
     public int[] checkGuess(String guess) {
         if (steps >= maxSteps) {
-            throw new GameStateException("Игра окончена! Лимит попыток исчерпан.");
+            throw new InvalidWordException("Игра окончена! Лимит попыток исчерпан.");
         }
 
         if (guess == null || guess.isEmpty()) {
@@ -160,11 +147,11 @@ public class WordleGame {
         }
 
         if (this.isGameOver) {
-            throw new GameStateException("Игра уже окончена! Нельзя делать новые ходы.");
+            throw new InvalidWordException("Игра уже окончена! Нельзя делать новые ходы.");
         }
 
         if (steps >= maxSteps) {
-            throw new GameStateException("Игра окончена! Лимит попыток исчерпан.");
+            throw new InvalidWordException("Игра окончена! Лимит попыток исчерпан.");
         }
 
         int[] colors = checkGuess(guess);

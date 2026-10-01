@@ -9,6 +9,7 @@ import java.util.Set;
 import java.util.logging.Logger;
 import java.util.logging.Level;
 
+
 public class WordleDictionaryLoader {
     private final Logger log;
 
@@ -31,7 +32,7 @@ public class WordleDictionaryLoader {
             String line;
             int count = 0;
             while ((line = reader.readLine()) != null) {
-                String cleanWord = line.trim().toLowerCase();
+                String cleanWord = line.trim().toLowerCase().replace('ё', 'е');
                 if (!cleanWord.isEmpty()) {
                     words.add(cleanWord);
                     count++;
