@@ -2,6 +2,7 @@ package ru.yandex.practicum;
 
 import java.util.*;
 import java.util.logging.Logger;
+
 import ru.yandex.practicum.exceptions.InvalidWordException;
 
 /*
@@ -36,6 +37,7 @@ public class WordleGame {
     public int[] getLastResultCodes() {
         return lastResultCodes;
     }
+
     public String getAnswer() {
         return answer;
     }
